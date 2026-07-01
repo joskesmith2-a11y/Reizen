@@ -21,8 +21,52 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; OpenStreetMap & CartoDB'
 }).addTo(map);
 
-var solo = ["Tunisia","India","Thailand","Nepal","Italy","France","Germany","United Kingdom","Belgium","Croatia","Denmark","Greece","Hungary","Malta","Netherlands","Mexico","Portugal"];
-var together = ["Czechia","Czech Republic","Poland","Spain"];
+// Joske alleen
+var solo = [
+  "Denmark",
+  "Tunisia",
+  "Mexico"
+];
+
+// Nick alleen
+var nickSolo = [
+  "Egypt",
+  "Turkey",
+  "United Arab Emirates",
+  "China",
+  "Philippines",
+  "Vietnam",
+  "Latvia",
+  "Montenegro"
+];
+
+// Allebei geweest (niet samen)
+var both = [
+  "Malta",
+  "Croatia",
+  "Luxembourg",
+  "Portugal",
+  "France",
+  "United Kingdom",
+  "Thailand",
+  "Belgium",
+  "Austria",
+  "Italy",
+  "India",
+  "Nepal",
+  "Hungary",
+  "Greece"
+];
+
+// Samen geweest
+var together = [
+  "Germany",
+  "Spain",
+  "Poland",
+  "Czechia",
+  "Czech Republic"
+];
+``
 
 function getStyle(name){
   if(together.includes(name)){
