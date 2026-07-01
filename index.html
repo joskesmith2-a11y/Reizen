@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8">
 <title>Onze Reiswereld</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
@@ -20,12 +21,11 @@ body {
   position: absolute;
   bottom: 20px;
   left: 20px;
+  z-index: 1000;
   background: white;
   padding: 10px;
   border-radius: 8px;
   font-family: Arial, sans-serif;
-  font-size: 14px;
-  z-index: 1000;
   box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 </style>
@@ -44,29 +44,32 @@ body {
 
 <script>
 
-var map = L.map('map').setView([20,0],3);
+var map = L.map('map').setView([20, 0], 3);
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; OpenStreetMap & CartoDB'
-}).addTo(map);
+L.tileLayer(
+  'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+  {
+    attribution: '&copy; OpenStreetMap & CartoDB'
+  }
+).addTo(map);
 
-// Joske alleen
+// Alleen Joske
 var solo = [
   "Denmark",
   "Tunisia",
   "Mexico"
 ];
 
-// Nick alleen
+// Alleen Nick
 var nickSolo = [
   "Egypt",
   "Turkey",
-  "United Arab Emirates",
   "China",
   "Philippines",
   "Vietnam",
   "Latvia",
-  "Montenegro"
+  "Montenegro",
+  "United Arab Emirates"
 ];
 
 // Allebei geweest
@@ -96,17 +99,83 @@ var together = [
   "Czech Republic"
 ];
 
-function getStyle(name){
+function getStyle(name) {
 
-  if(together.includes(name)){
+  if (together.includes(name)) {
     return {
-      color:'#9ca3af',
-      weight:1,
-      fillColor:'#ff6b81',
-      fillOpacity:0.7
+      color: "#9ca3af",
+      weight: 1,
+      fillColor: "#ff6b81",
+      fillOpacity: 0.7
     };
   }
 
-  if(both.includes(name)){
+  if (both.includes(name)) {
     return {
-      color:'
+      color: "#9ca3af",
+      weight: 1,
+      fillColor: "#ffb6c1",
+      fillOpacity: 0.7
+    };
+  }
+
+  if (solo.includes(name)) {
+    return {
+      color: "#9ca3af",
+      weight: 1,
+      fillColor: "#8e7dff",
+      fillOpacity: 0.7
+    };
+  }
+
+  if (nickSolo.includes(name)) {
+    return {
+      color: "#9ca3af",
+      weight: 1,
+      fillColor: "#6ec6ff",
+      fillOpacity: 0.7
+    };
+  }
+
+  return {
+    opacity: 0,
+    fillOpacity: 0
+  };
+}
+
+fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+.then(res => res.json())
+.then(data => {
+
+  L.geoJSON(data, {
+
+    style: function(feature) {
+      return getStyle(feature.properties.name);
+    },
+
+    onEachFeature: function(feature, layer) {
+
+      var name = feature.properties.name;
+
+      if (together.includes(name)) {
+
+        var center = layer.getBounds().getCenter();
+
+        L.marker([center.lat + 1, center.lng], {
+          icon: L.divIcon({
+            html: '<div style="font-size:12px">❤️</div>',
+            className: '',
+            iconSize: [12,12]
+          })
+        }).addTo(map);
+
+      }
+    }
+
+  }).addTo(map);
+
+});
+</script>
+
+</body>
+</html>
