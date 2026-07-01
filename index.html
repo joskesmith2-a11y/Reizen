@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,14 +6,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <style>
-  body { margin:0; }
-  #map { height: 100vh; }
+body {
+  margin: 0;
+}
+
+#map {
+  height: 100vh;
+}
+
+.legend {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  z-index: 1000;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
 </style>
 </head>
+
 <body>
+
 <div id="map"></div>
+
+<div class="legend">
+  🟣 Joske<br>
+  🔵 Nick<br>
+  🩷 Allebei geweest<br>
+  ❤️ Samen geweest
+</div>
+
 <script>
+
 var map = L.map('map').setView([20,0],3);
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -40,7 +69,7 @@ var nickSolo = [
   "Montenegro"
 ];
 
-// Allebei geweest (niet samen)
+// Allebei geweest
 var both = [
   "Malta",
   "Croatia",
@@ -66,51 +95,18 @@ var together = [
   "Czechia",
   "Czech Republic"
 ];
-``
 
 function getStyle(name){
+
   if(together.includes(name)){
     return {
-      color:'#9ca3af', // donkerdere grens
+      color:'#9ca3af',
       weight:1,
       fillColor:'#ff6b81',
-      fillOpacity:0.4
+      fillOpacity:0.7
     };
   }
-  if(solo.includes(name)){
+
+  if(both.includes(name)){
     return {
-      color:'#9ca3af', // donkerdere grens
-      weight:1,
-      fillColor:'#8e7dff',
-      fillOpacity:0.4
-    };
-  }
-  return { opacity: 0, fillOpacity: 0 };
-}
-
-fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
-.then(res=>res.json())
-.then(data=>{
-  L.geoJSON(data,{
-    style: function(feature){
-      return getStyle(feature.properties.name);
-    },
-    onEachFeature: function(feature, layer){
-      var name = feature.properties.name;
-
-      if(together.includes(name)){
-        var center = layer.getBounds().getCenter();
-        L.marker([center.lat+1, center.lng], {
-          icon: L.divIcon({
-            html: '<div style="font-size:10px">❤️</div>',
-            className: '',
-            iconSize: [10,10]
-          })
-        }).addTo(map);
-      }
-    }
-  }).addTo(map);
-});
-</script>
-</body>
-</html>
+      color:'
