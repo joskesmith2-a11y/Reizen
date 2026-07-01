@@ -147,6 +147,8 @@ fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.g
 .then(res => res.json())
 .then(data => {
 
+  console.log(data.features.map(f => f.properties.name));
+
   L.geoJSON(data, {
 
     style: function(feature) {
